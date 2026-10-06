@@ -1,0 +1,55 @@
+# Game/derived assets and proprietary containers
+*.kf
+*.nif
+*.bsa
+*.ba2
+*.big
+*.bin
+*.abin
+*.rx2
+*.xex
+*.exe
+*.dll
+*.esm
+*.esp
+*.blend
+*.blend1
+*.fbx
+*.hkx
+*.zip
+*.7z
+*.rar
+*.iso
+*.png
+*.jpg
+*.mp4
+*.dds
+!MO2/mods/Mojave Skate/textures/MojaveSkate/deck.dds
+!MO2/mods/Mojave Skate/textures/MojaveSkate/deck_n.dds
+*.actions.json
+*.fnv.json
+vendor/
+generated/
+backups/
+evidence/
+Saves/
+Data/
+SkateLab/github/
+
+# Private machine state and credentials
+.env
+.env.*
+*.pem
+*.key
+*.log
+meta.ini
+NEXT_SESSION.md
+MODLOG.md
+PROJECT_STATE.json
+VALIDATION.json
+__pycache__/
+*.py[cod]
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

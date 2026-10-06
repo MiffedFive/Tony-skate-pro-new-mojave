@@ -1,0 +1,105 @@
+{
+  "schema": 1,
+  "project": "Mojave Skate",
+  "runtime_version": "0.15-development-source-snapshot",
+  "prepared": "2026-10-06",
+  "installable": false,
+  "scope": "Source-only snapshot. Retail assets and derived KF/NIF are excluded.",
+  "files": [
+    {
+      "path": "MO2/mods/Mojave Skate/NVSE/Plugins/Scripts/ln_MojaveSkate.txt",
+      "bytes": 8875,
+      "sha256": "0d0caa94080ae8233cbff23302b1c5e5dedb6e843ef543f9aee8b0582564d0ed"
+    },
+    {
+      "path": "MO2/mods/Mojave Skate/NVSE/Plugins/Scripts/xm_MojaveSkate.txt",
+      "bytes": 830,
+      "sha256": "3c7c65aac7a114972cebd90427f32a11b95e8052e79d78269ae8513c2046d1f4"
+    },
+    {
+      "path": "MO2/mods/Mojave Skate/NVSE/Plugins/MojaveSkate.ini",
+      "bytes": 448,
+      "sha256": "697f6a0273b6d9d547def229eafae1e5084688c8e879015ef8ff8a94219bd62b"
+    },
+    {
+      "path": "MO2/mods/Mojave Skate/config/MojaveSkate.ini",
+      "bytes": 448,
+      "sha256": "697f6a0273b6d9d547def229eafae1e5084688c8e879015ef8ff8a94219bd62b"
+    },
+    {
+      "path": "MO2/mods/Mojave Skate/menus/prefabs/MojaveSkate/hud.xml",
+      "bytes": 884,
+      "sha256": "d23710f7c9a72ac98d50f02593cdff7b3010ae787fb72ab9049a5f17dfec1820"
+    },
+    {
+      "path": "MO2/mods/Mojave Skate/textures/MojaveSkate/deck.dds",
+      "bytes": 131200,
+      "sha256": "53c5afead01f50a7a4ca606257eb03af3453676b5fe3c9548f7c1e29f9b6c91e"
+    },
+    {
+      "path": "MO2/mods/Mojave Skate/textures/MojaveSkate/deck_n.dds",
+      "bytes": 192,
+      "sha256": "2791e5a34aa3c521b787525ffb4c934cd7a709c2dda06cf7a6176abb9879d12b"
+    },
+    {
+      "path": "SkateLab/build_board.py",
+      "bytes": 17487,
+      "sha256": "c2e041d35c2d7af58ba3644fc9dc30b7b46a616d4f41cd7607ad355aa82d2c92"
+    },
+    {
+      "path": "SkateLab/build_retargeted_kf.py",
+      "bytes": 13543,
+      "sha256": "2a1a5c6178e1a2b38fb6f1dd0fcc97e4ae62a308feabda130cb4a624bc8b0a37"
+    },
+    {
+      "path": "SkateLab/retarget_skate3_to_fnv.py",
+      "bytes": 9108,
+      "sha256": "5aa2579ddf7c163b2a6155006d20548ddbddeeee22ccba3a668aa1bccd4aae43"
+    },
+    {
+      "path": "SkateLab/extract_skate3_rig.py",
+      "bytes": 2994,
+      "sha256": "3ef14e4c3c09c401cf797e1c7125b1db9615c56bf42ad74f6aa96748ad71db91"
+    },
+    {
+      "path": "SkateLab/export_skate3_actions.py",
+      "bytes": 2675,
+      "sha256": "00885a0cf05050d8f4901ea2b8926be36153560e7e2cc31db022d761bbbf0953"
+    },
+    {
+      "path": "SkateLab/render_fnv_retarget.py",
+      "bytes": 3898,
+      "sha256": "10eae741e91033867bbacd314717d3c8278902405e4ef4d2d5e265283bc3d4d1"
+    },
+    {
+      "path": "SkateLab/render_skate3_preview.py",
+      "bytes": 2190,
+      "sha256": "5b04931e846a9631805e433523ce9e76f8a8bf5d80f466fe7271d9dcdbccd778"
+    },
+    {
+      "path": "SkateLab/kf_inspect.py",
+      "bytes": 4208,
+      "sha256": "95ab32c2e0f8f84c3a99a34d5d0deb9fc3f9411847a4e15b8a4d8b234261faf2"
+    },
+    {
+      "path": "SkateLab/kf_pose_probe.py",
+      "bytes": 1905,
+      "sha256": "89ee6e7c15f4d095ee885b66d793ae7272e655c915882528e76bee21df45a70e"
+    },
+    {
+      "path": "SkateLab/game_drive.ps1",
+      "bytes": 7440,
+      "sha256": "5695510f1c9407db57259dce9f635eb965d5574d4f5ec5bcac201ba35ec8a1fe"
+    },
+    {
+      "path": "SkateLab/validate_skate.py",
+      "bytes": 4190,
+      "sha256": "4623693eee70478125629b6c65a8a437b24f8bd176705f3c604f3eb68dd32cee"
+    },
+    {
+      "path": "SkateLab/finalize.py",
+      "bytes": 3187,
+      "sha256": "9aaeb35340c4202feac5ce041cd18fd3e8262c5012875f38b25470e0dd78e300"
+    }
+  ]
+}

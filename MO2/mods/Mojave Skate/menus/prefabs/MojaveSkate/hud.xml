@@ -1,0 +1,21 @@
+<rect name="MojaveSkateHUD">
+    <visible>0</visible>
+    <x>35</x><y>140</y><width>600</width><height>130</height>
+    <text name="Speed">
+        <x>0</x><y>0</y><font>3</font><string>MOJAVE SKATE</string>
+        <red>255</red><green>190</green><blue>90</blue><alpha>255</alpha>
+    </text>
+    <text name="Combo">
+        <x>0</x><y>30</y><font>3</font><string>COMBO</string>
+        <red>255</red><green>230</green><blue>175</blue><alpha>255</alpha>
+    </text>
+    <text name="Balance">
+        <x>0</x><y>60</y><font>3</font><string>BALANCE</string>
+        <red>230</red><green>230</green><blue>210</blue><alpha>255</alpha>
+    </text>
+    <text name="Help">
+        <x>0</x><y>90</y><font>3</font>
+        <string>F10 BOARD | W PUSH | SPACE OLLIE | Z/X TRICKS | C MANUAL</string>
+        <red>200</red><green>200</green><blue>180</blue><alpha>255</alpha>
+    </text>
+</rect>

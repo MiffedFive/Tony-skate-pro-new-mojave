@@ -1,0 +1,25 @@
+; Restore only controls owned by this mod on return to main menu.
+ref p = GetFormFromMod "FalloutNV.esm" "14"
+ReleaseControl 0
+if eval p.AuxVarGetFlt "*_MojSkateState" 7 > 0
+    p.SetSpeedMult (p.AuxVarGetFlt "*_MojSkateState" 7)
+endif
+if eval p.AuxVarGetFlt "*_MojSkateState" 6
+ int msCleanCtl = 1
+ while msCleanCtl < 8
+  if eval p.AuxVarGetFlt "*_MojSkateState" (20 + msCleanCtl) == 0
+   EnableControl msCleanCtl
+  endif
+  let msCleanCtl += 1
+ loop
+endif
+AttachModel p 2 "Bip01 NonAccum|MojaveSkate\board.nif"
+p.SetActorAnimationPath 0 0 "MojaveSkate\carve_right"
+p.SetActorAnimationPath 0 0 "MojaveSkate\carve_left"
+p.SetActorAnimationPath 0 0 "MojaveSkate\locomotion"
+p.RefreshAnimData
+p.PlayGroupAlt Idle 1
+if eval p.AuxVarGetFlt "*_MojSkateState" 15
+ p.SetWeaponOut 1
+endif
+SetUIFloat "HUDMainMenu\MojaveSkateHUD\visible" 0

@@ -1,0 +1,4 @@
+# Preserve the byte-exact source snapshot and its SHA-256 manifest.
+# Do not let core.autocrlf alter the archived runtime/tools on checkout.
+* -text
+*.dds binary

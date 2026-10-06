@@ -1,0 +1,279 @@
+; Mojave Skate 0.15 - conditional Skate 3 carve poses over native root motion.
+
+; Recover state owned by an earlier load before resetting transient variables.
+if eval Player.AuxVarGetFlt "*_MojSkateState" 6
+ int msBootSpeed = Player.AuxVarGetFlt "*_MojSkateState" 7
+ if eval msBootSpeed > 0
+  Player.SetSpeedMult msBootSpeed
+ endif
+ int msBootC = 1
+ while msBootC < 8
+  if eval Player.AuxVarGetFlt "*_MojSkateState" (20 + msBootC) == 0
+   EnableControl msBootC
+  endif
+  let msBootC += 1
+ loop
+ ReleaseControl 0
+ Player.SetActorAnimationPath 0 0 "MojaveSkate\carve_right"
+ Player.SetActorAnimationPath 0 0 "MojaveSkate\carve_left"
+ Player.SetActorAnimationPath 0 0 "MojaveSkate\locomotion"
+ Player.RefreshAnimData
+ Player.PlayGroupAlt Idle 1
+ if eval Player.AuxVarGetFlt "*_MojSkateState" 15
+  Player.SetWeaponOut 1
+ endif
+endif
+AttachModel Player 2 "Bip01 NonAccum|MojaveSkate\board.nif"
+
+int msInit = 0
+while msInit < 29
+ Player.AuxVarSetFlt "*_MojSkateState" 0 msInit
+ let msInit += 1
+loop
+
+float msCfg = GetINIFloat "Physics:MaxSpeedMult" "MojaveSkate.ini"
+if eval msCfg <= 100
+ let msCfg := 180
+endif
+Player.AuxVarSetFlt "*_MojSkateState" msCfg 10
+let msCfg := GetINIFloat "Physics:Acceleration" "MojaveSkate.ini"
+if eval msCfg <= 0
+ let msCfg := 95
+endif
+Player.AuxVarSetFlt "*_MojSkateState" msCfg 11
+let msCfg := GetINIFloat "Physics:Friction" "MojaveSkate.ini"
+if eval msCfg <= 0
+ let msCfg := 18
+endif
+Player.AuxVarSetFlt "*_MojSkateState" msCfg 12
+let msCfg := GetINIFloat "Physics:TurnRate" "MojaveSkate.ini"
+if eval msCfg <= 0
+ let msCfg := 105
+endif
+Player.AuxVarSetFlt "*_MojSkateState" msCfg 13
+let msCfg := GetINIFloat "Physics:BrakeRate" "MojaveSkate.ini"
+if eval msCfg <= 0
+ let msCfg := 180
+endif
+Player.AuxVarSetFlt "*_MojSkateState" msCfg 14
+
+PrintToConsole "[Mojave Skate][BOOT] native locomotion build loaded"
+MessageEx "Mojave Skate 0.15 loaded - press F10"
+
+SetGameMainLoopCallback (Begin Function {}
+ int msSeen = Player.AuxVarGetFlt "*_MojSkateState" 5
+ if eval msSeen == 0
+  Player.AuxVarSetFlt "*_MojSkateState" 1 5
+  Print "[Mojave Skate][READY] native controller active"
+ endif
+End) 1 1 9
+
+SetGameMainLoopCallback (Begin Function {}
+ int msK = IsKeyPressed 68 2
+ int msOld = Player.AuxVarGetFlt "*_MojSkateState" 1
+ if eval msK && msOld == 0
+  int msA = Player.AuxVarGetFlt "*_MojSkateState" 0
+  int msR = Player.AuxVarGetFlt "*_MojSkateState" 6
+  if eval msR == 0 || msR == 2
+   Player.AuxVarSetFlt "*_MojSkateState" (1 - msA) 0
+  endif
+ endif
+ Player.AuxVarSetFlt "*_MojSkateState" msK 1
+End) 1 1 9
+
+SetGameMainLoopCallback (Begin Function {}
+ int msA = Player.AuxVarGetFlt "*_MojSkateState" 0
+ int msR = Player.AuxVarGetFlt "*_MojSkateState" 6
+ if eval msA && msR == 0
+  Player.AuxVarSetFlt "*_MojSkateState" 1 6
+  Player.AuxVarSetFlt "*_MojSkateState" (Player.GetActorValue SpeedMult) 7
+  Player.AuxVarSetFlt "*_MojSkateState" (Player.IsWeaponOut) 15
+  Player.SetWeaponOut 0
+ endif
+End) 1 1 9
+
+SetGameMainLoopCallback (Begin Function {}
+ int msA = Player.AuxVarGetFlt "*_MojSkateState" 0
+ int msR = Player.AuxVarGetFlt "*_MojSkateState" 6
+ if eval msA && msR == 1
+  int msCtl = 1
+  while msCtl < 8
+   Player.AuxVarSetFlt "*_MojSkateState" (IsControlDisabled msCtl) (20 + msCtl)
+   DisableControl msCtl
+   let msCtl += 1
+  loop
+  Player.AuxVarSetFlt "*_MojSkateState" 10 6
+ endif
+End) 1 1 9
+
+SetGameMainLoopCallback (Begin Function {}
+ int msPhase = Player.AuxVarGetFlt "*_MojSkateState" 6
+ if eval msPhase == 10 && Player.IsWeaponOut == 0
+  AttachModel Player 3 "Bip01 NonAccum|MojaveSkate\board.nif"
+  Player.SetActorAnimationPath 0 1 "MojaveSkate\locomotion"
+  Player.AuxVarSetFlt "*_MojSkateState" 11 6
+ endif
+End) 1 1 9
+
+SetGameMainLoopCallback (Begin Function {}
+ if eval Player.AuxVarGetFlt "*_MojSkateState" 6 == 11
+  Player.SetActorAnimationPath 0 1 "MojaveSkate\carve_left" 1 (Begin Function {}
+   SetFunctionValue (Player.AuxVarGetFlt "*_MojSkateState" 6 == 2 && IsKeyPressed 30 2 && IsKeyPressed 32 2 == 0)
+  End)
+  Player.AuxVarSetFlt "*_MojSkateState" 12 6
+ endif
+End) 1 1 9
+
+SetGameMainLoopCallback (Begin Function {}
+ if eval Player.AuxVarGetFlt "*_MojSkateState" 6 == 12
+  Player.SetActorAnimationPath 0 1 "MojaveSkate\carve_right" 1 (Begin Function {}
+   SetFunctionValue (Player.AuxVarGetFlt "*_MojSkateState" 6 == 2 && IsKeyPressed 32 2 && IsKeyPressed 30 2 == 0)
+  End)
+  Player.AuxVarSetFlt "*_MojSkateState" 13 6
+ endif
+End) 1 1 9
+
+SetGameMainLoopCallback (Begin Function {}
+ if eval Player.AuxVarGetFlt "*_MojSkateState" 6 == 13
+  Player.RefreshAnimData
+  Player.AuxVarSetFlt "*_MojSkateState" 2 6
+  Player.PlayGroupAlt Idle 1
+  Print "[Mojave Skate][STATE] BOARD ON"
+  MessageEx "Mojave Skate: BOARD ON"
+ endif
+End) 1 1 9
+
+SetGameMainLoopCallback (Begin Function {}
+ if eval Player.AuxVarGetFlt "*_MojSkateState" 6 == 2
+  Player.SetNifBlockFlag "MojaveSkateRoot" 0 0 1
+  Player.SetNifBlockFlag "MojaveSkateRoot" 0 1 2
+  if eval Player.IsWeaponOut
+   Player.SetWeaponOut 0
+  endif
+ endif
+End) 1 1 9
+
+SetGameMainLoopCallback (Begin Function {}
+ int msA = Player.AuxVarGetFlt "*_MojSkateState" 0
+ int msR = Player.AuxVarGetFlt "*_MojSkateState" 6
+ if eval msA == 0 && msR == 2
+  ReleaseControl 0
+  int msCtl = 1
+  while msCtl < 8
+   if eval Player.AuxVarGetFlt "*_MojSkateState" (20 + msCtl) == 0
+    EnableControl msCtl
+   endif
+   let msCtl += 1
+  loop
+  Player.SetActorAnimationPath 0 0 "MojaveSkate\locomotion"
+  Player.AuxVarSetFlt "*_MojSkateState" 14 6
+ endif
+End) 1 1 9
+
+SetGameMainLoopCallback (Begin Function {}
+ if eval Player.AuxVarGetFlt "*_MojSkateState" 6 == 14
+  Player.SetActorAnimationPath 0 0 "MojaveSkate\carve_right"
+  Player.SetActorAnimationPath 0 0 "MojaveSkate\carve_left"
+  Player.AuxVarSetFlt "*_MojSkateState" 3 6
+ endif
+End) 1 1 9
+
+SetGameMainLoopCallback (Begin Function {}
+ int msA = Player.AuxVarGetFlt "*_MojSkateState" 0
+ int msR = Player.AuxVarGetFlt "*_MojSkateState" 6
+ if eval msA == 0 && msR == 3
+  int msOldSpeed = Player.AuxVarGetFlt "*_MojSkateState" 7
+  if eval msOldSpeed > 0
+   Player.SetSpeedMult msOldSpeed
+  endif
+  Player.AuxVarSetFlt "*_MojSkateState" 4 6
+  Player.RefreshAnimData
+  Player.PlayGroupAlt Idle 1
+ endif
+End) 1 1 9
+
+SetGameMainLoopCallback (Begin Function {}
+ int msR = Player.AuxVarGetFlt "*_MojSkateState" 6
+ if eval msR == 4
+  Player.AuxVarSetFlt "*_MojSkateState" 0 6
+  Player.AuxVarSetFlt "*_MojSkateState" 0 2
+  Player.AuxVarSetFlt "*_MojSkateState" 0 9
+  AttachModel Player 2 "Bip01 NonAccum|MojaveSkate\board.nif"
+  if eval Player.AuxVarGetFlt "*_MojSkateState" 15
+   Player.SetWeaponOut 1
+  endif
+  Print "[Mojave Skate][STATE] BOARD OFF"
+ endif
+End) 1 1 9
+
+SetGameMainLoopCallback (Begin Function {}
+ int msA = Player.AuxVarGetFlt "*_MojSkateState" 6
+ if eval msA == 2
+  float msD = GetSecondsPassed
+  float msB = Player.AuxVarGetFlt "*_MojSkateState" 2
+  if eval IsKeyPressed 17 2
+   let msB += Player.AuxVarGetFlt "*_MojSkateState" 11 * msD
+  else
+   let msB -= Player.AuxVarGetFlt "*_MojSkateState" 12 * msD
+  endif
+  Player.AuxVarSetFlt "*_MojSkateState" msB 2
+ endif
+End) 1 1 9
+
+SetGameMainLoopCallback (Begin Function {}
+ int msA = Player.AuxVarGetFlt "*_MojSkateState" 6
+ if eval msA == 2
+  float msD = GetSecondsPassed
+  float msB = Player.AuxVarGetFlt "*_MojSkateState" 2
+  if eval IsKeyPressed 31 2
+   let msB -= Player.AuxVarGetFlt "*_MojSkateState" 14 * msD
+  endif
+  float msMax = Player.AuxVarGetFlt "*_MojSkateState" 10
+  let msMax -= 100
+  let msB := Clamp msB 0 msMax
+  Player.AuxVarSetFlt "*_MojSkateState" msB 2
+  Player.SetSpeedMult (100 + msB)
+ endif
+End) 1 1 9
+
+SetGameMainLoopCallback (Begin Function {}
+ int msA = Player.AuxVarGetFlt "*_MojSkateState" 6
+ if eval msA == 2
+  float msB = Player.AuxVarGetFlt "*_MojSkateState" 2
+  int msHeld = Player.AuxVarGetFlt "*_MojSkateState" 9
+  if eval msB > 1 && msHeld == 0
+   HoldControl 0
+   Player.AuxVarSetFlt "*_MojSkateState" 1 9
+  elseif eval msB <= 1 && msHeld
+   ReleaseControl 0
+   Player.AuxVarSetFlt "*_MojSkateState" 0 9
+  endif
+ endif
+End) 1 1 9
+
+SetGameMainLoopCallback (Begin Function {}
+ int msA = Player.AuxVarGetFlt "*_MojSkateState" 6
+ if eval msA == 2
+  float msD = GetSecondsPassed
+  float msH = Player.GetAngle Z
+  float msTurn = Player.AuxVarGetFlt "*_MojSkateState" 13
+  let msH += ((IsKeyPressed 32 2) - (IsKeyPressed 30 2)) * msTurn * msD
+  Player.SetAngle Z msH
+ endif
+End) 1 1 9
+
+; Re-select our anchored Idle once after native forward control settles.
+; Never force a turn/idle over a moving actor: native root motion stays owner.
+SetGameMainLoopCallback (Begin Function {}
+ if eval Player.AuxVarGetFlt "*_MojSkateState" 6 == 2
+  int msRest = Player.AuxVarGetFlt "*_MojSkateState" 28
+  if eval Player.AuxVarGetFlt "*_MojSkateState" 9
+   Player.AuxVarSetFlt "*_MojSkateState" 2 28
+  elseif eval msRest > 0
+   Player.AuxVarSetFlt "*_MojSkateState" (msRest - 1) 28
+   if eval msRest == 1
+    Player.PlayGroupAlt Idle 1
+   endif
+  endif
+ endif
+End) 1 1 9
