@@ -1,4 +1,6 @@
-# Mojave Skate — исходники прототипа 0.15
+# Tony-skate-pro-new-mojave
+
+Mojave Skate — исходники прототипа 0.15. Публичный репозиторий: [MiffedFive/Tony-skate-pro-new-mojave](https://github.com/MiffedFive/Tony-skate-pro-new-mojave). Внутреннее название мода и пути файлов остаются `Mojave Skate`.
 
 Экспериментальный скейтбординг для Fallout: New Vegas. Это **снимок разработки, не установочный релиз**. Репозиторий не содержит необходимых анимаций и модели доски; простое подключение этой папки в MO2 не даст рабочий мод.
 
